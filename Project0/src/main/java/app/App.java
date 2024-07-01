@@ -3,6 +3,7 @@ package app;
 import controllers.ItemController;
 import controllers.AccountController;
 import io.javalin.Javalin;
+import org.jetbrains.annotations.NotNull;
 import repositories.ItemRepo;
 import repositories.ItemRepoImpl;
 import repositories.AccountRepo;
@@ -22,7 +23,7 @@ public class App {
         app.start();
     }
 
-    private static void establishRoutes(Javalin app) {
+    private static void establishRoutes(@NotNull Javalin app) {
 
         ItemRepo ir = new ItemRepoImpl();
         ItemService is = new ItemServiceImpl(ir);
