@@ -33,4 +33,7 @@ public class ItemServiceImpl implements ItemService {
     public Item deleteItem(int id) {
         return ir.deleteItem(id);
     }
+
+    @Override
+    public List<Item> getAccountItems(int id) { return ir.getAccountItems(id); }
 }

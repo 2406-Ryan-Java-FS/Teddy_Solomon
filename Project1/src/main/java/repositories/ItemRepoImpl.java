@@ -34,6 +34,7 @@ public class ItemRepoImpl implements ItemRepo {
         return null;
     }
 
+    @Override
     public List<Item> getAllItems() {
         String sql = "SELECT * FROM items";
 
@@ -82,6 +83,7 @@ public class ItemRepoImpl implements ItemRepo {
         return null;
     }
 
+    @Override
     public Item updateItem(Item change) {
         try {
             String sql = "UPDATE items SET name=?, price=?, available=?,return_date=? WHERE i_id = ? RETURNING *";
@@ -107,6 +109,7 @@ public class ItemRepoImpl implements ItemRepo {
         return null;
     }
 
+    @Override
     public Item deleteItem(int id) {
         try {
             String sql = "DELETE FROM items WHERE i_id = ? RETURNING *";
@@ -118,6 +121,30 @@ public class ItemRepoImpl implements ItemRepo {
             if (rs.next()) {
                 return buildItem(rs);
             }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    @Override
+    public List<Item> getAccountItems(int id) {
+        try {
+            String sql = "SELECT * FROM items WHERE i_id IN (SELECT item_id FROM account_item WHERE account_id = ?) RETURNING *";
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            List<Item> items = new ArrayList<>();
+
+            while(rs.next()) {
+                items.add(buildItem(rs));
+            }
+
+            return items;
 
         } catch (SQLException e) {
             e.printStackTrace();

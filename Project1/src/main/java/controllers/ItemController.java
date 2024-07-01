@@ -49,4 +49,12 @@ public class ItemController {
         Item i = is.deleteItem(id);
         context.result(gson.toJson(i));
     };
+
+    public Handler getItemsByAccountId = (context) -> {
+
+        int id = Integer.parseInt(context.pathParam("id"));
+        List<Item> items = is.getAccountItems(id);
+        String itemsJSON = gson.toJson(items);
+        context.result(itemsJSON);
+    };
 }

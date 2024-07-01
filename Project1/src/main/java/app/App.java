@@ -1,11 +1,16 @@
 package app;
 
 import controllers.ItemController;
+import controllers.AccountController;
 import io.javalin.Javalin;
 import repositories.ItemRepo;
 import repositories.ItemRepoImpl;
+import repositories.AccountRepo;
+import repositories.AccountRepoImpl;
 import services.ItemService;
 import services.ItemServiceImpl;
+import services.AccountService;
+import services.AccountServiceImpl;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
@@ -23,6 +28,10 @@ public class App {
         ItemService is = new ItemServiceImpl(ir);
         ItemController ic = new ItemController(is);
 
+        AccountRepo ar = new AccountRepoImpl();
+        AccountService as = new AccountServiceImpl(ar);
+        AccountController ac = new AccountController(as);
+
         app.get("/hello", (context) -> context.result("Hello World!"));
 
         app.get("/items", ic.getAllItems);
@@ -30,5 +39,12 @@ public class App {
         app.post("/items", ic.createItem);
         app.put("/items", ic.updateItem);
         app.delete("/items/:id", ic.deleteItemById);
+//        app.get("/items/?account_id=:id", ic.getItemsByAccountId);
+
+        app.get("/accounts", ac.getAllAccounts);
+        app.get("/accounts/:id", ac.getAccountById);
+        app.post("/accounts", ac.createAccount);
+        app.put("/accounts", ac.updateAccount);
+        app.delete("/accounts/:id", ac.deleteAccountById);
     }
 }

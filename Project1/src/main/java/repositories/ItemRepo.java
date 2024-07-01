@@ -15,4 +15,6 @@ public interface ItemRepo {
     public Item updateItem(Item change);
 
     public Item deleteItem(int id);
+
+    public List<Item> getAccountItems(int id);
 }
