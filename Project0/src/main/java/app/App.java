@@ -39,12 +39,12 @@ public class App {
         app.post("/items", ic.createItem);
         app.put("/items", ic.updateItem);
         app.delete("/items/:id", ic.deleteItemById);
-//        app.get("/items/?account_id=:id", ic.getItemsByAccountId);
 
         app.get("/accounts", ac.getAllAccounts);
         app.get("/accounts/:id", ac.getAccountById);
         app.post("/accounts", ac.createAccount);
         app.put("/accounts", ac.updateAccount);
         app.delete("/accounts/:id", ac.deleteAccountById);
+        app.get("/accounts/:id/items", ic.getItemsByAccountId);
     }
 }

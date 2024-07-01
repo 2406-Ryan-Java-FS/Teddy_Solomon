@@ -86,7 +86,7 @@ public class AccountRepoImpl implements AccountRepo {
     @Override
     public Account updateAccount(Account change) {
         try {
-            String sql = "UPDATE accounts SET name=?, age=? WHERE i_id = ? RETURNING *";
+            String sql = "UPDATE accounts SET name=?, age=? WHERE a_id = ? RETURNING *";
             PreparedStatement ps = conn.prepareStatement(sql);
 
             ps.setString(1, change.getName());
@@ -98,7 +98,6 @@ public class AccountRepoImpl implements AccountRepo {
             if (rs.next()) {
                 return buildAccount(rs);
             }
-
 
         } catch (SQLException e) {
             e.printStackTrace();

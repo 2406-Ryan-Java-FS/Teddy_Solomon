@@ -132,7 +132,7 @@ public class ItemRepoImpl implements ItemRepo {
     @Override
     public List<Item> getAccountItems(int id) {
         try {
-            String sql = "SELECT * FROM items WHERE i_id IN (SELECT item_id FROM account_item WHERE account_id = ?) RETURNING *";
+            String sql = "SELECT * FROM items WHERE i_id IN (SELECT item_id FROM account_item WHERE account_id = ?)";
             PreparedStatement ps = conn.prepareStatement(sql);
 
             ps.setInt(1, id);
