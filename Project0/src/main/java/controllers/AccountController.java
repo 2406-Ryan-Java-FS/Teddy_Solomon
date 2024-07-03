@@ -3,6 +3,7 @@ package controllers;
 import com.google.gson.Gson;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
+import io.javalin.http.NotFoundResponse;
 import models.Account;
 import models.Item;
 import services.AccountService;
@@ -27,6 +28,9 @@ public class AccountController {
 
         int id = Integer.parseInt(context.pathParam("id"));
         Account a = as.getAccount(id);
+        if (a == null) {
+            throw new NotFoundResponse();
+        }
         context.result(gson.toJson(a));
     };
 
@@ -39,8 +43,13 @@ public class AccountController {
 
     public Handler updateAccount = (context) -> {
 
+        int id = Integer.parseInt(context.pathParam("id"));
         Account change = gson.fromJson(context.body(), Account.class);
+        change.setId(id);
         change = as.updateAccount(change);
+        if (change == null) {
+            throw new NotFoundResponse();
+        }
         context.result(gson.toJson(change));
     };
 
@@ -48,6 +57,9 @@ public class AccountController {
 
         int id = Integer.parseInt(context.pathParam("id"));
         Account a = as.deleteAccount(id);
+        if (a == null) {
+            throw new NotFoundResponse();
+        }
         context.result(gson.toJson(a));
     };
 }

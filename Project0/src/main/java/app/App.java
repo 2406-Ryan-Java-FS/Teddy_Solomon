@@ -38,13 +38,13 @@ public class App {
         app.get("/items", ic.getAllItems);
         app.get("/items/:id", ic.getItemById);
         app.post("/items", ic.createItem);
-        app.put("/items", ic.updateItem);
+        app.put("/items/:id", ic.updateItem);
         app.delete("/items/:id", ic.deleteItemById);
 
         app.get("/accounts", ac.getAllAccounts);
         app.get("/accounts/:id", ac.getAccountById);
         app.post("/accounts", ac.createAccount);
-        app.put("/accounts", ac.updateAccount);
+        app.put("/accounts/:id", ac.updateAccount);
         app.delete("/accounts/:id", ac.deleteAccountById);
         app.get("/accounts/:id/items", ic.getItemsByAccountId);
     }

@@ -3,6 +3,7 @@ package controllers;
 import com.google.gson.Gson;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
+import io.javalin.http.NotFoundResponse;
 import models.Item;
 import services.ItemService;
 
@@ -26,6 +27,9 @@ public class ItemController {
 
         int id = Integer.parseInt(context.pathParam("id"));
         Item i = is.getItem(id);
+        if (i == null) {
+            throw new NotFoundResponse();
+        }
         context.result(gson.toJson(i));
     };
 
@@ -38,8 +42,13 @@ public class ItemController {
 
     public Handler updateItem = (context) -> {
 
+        int id = Integer.parseInt(context.pathParam("id"));
         Item change = gson.fromJson(context.body(), Item.class);
+        change.setId(id);
         change = is.updateItem(change);
+        if (change == null) {
+            throw new NotFoundResponse();
+        }
         context.result(gson.toJson(change));
     };
 
@@ -47,6 +56,9 @@ public class ItemController {
 
         int id = Integer.parseInt(context.pathParam("id"));
         Item i = is.deleteItem(id);
+        if (i == null) {
+            throw new NotFoundResponse();
+        }
         context.result(gson.toJson(i));
     };
 
