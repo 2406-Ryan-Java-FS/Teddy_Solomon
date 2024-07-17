@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Actor Adder</title>
+</head>
+
+<body>
+    <h1>My Actor Adder</h1>
+
+    <label for="nameInput">Name:</label>
+    <input type="text" id="nameInput"><br>
+
+    <label for="ageInput">Age:</label>
+    <input type="number" id="ageInput" min="0" value="0"><br>
+
+    <label for="worthInput">Worth:</label>
+    <input type="number" id="worthInput" min="0" value="0"><br>
+
+    <button onclick="addActor()">Add Actor</button>
+    
+</body>
+<script>
+    async function addActor() {
+
+        console.log("Adding Actor...");
+
+        const name = document.getElementById("nameInput").value;
+        const age = document.getElementById("ageInput").value;
+        const worth = document.getElementById("worthInput").value;
+
+        const data = {
+            name: name,
+            age: age,
+            worth: worth
+        }
+
+        console.log(data);
+
+        const url = "http://localhost:8080/actors";
+
+        const options = {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }
+        
+        const httpResponse = await fetch(url, options);
+
+        const body = await httpResponse.json();
+
+        console.log(body);
+        if (body) {
+            alert("Actor Successfully Added")
+        } else {
+            alert("Actor Failed to be added.")
+        }
+    }
+
+</script>
+
+</html>

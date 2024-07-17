@@ -1,0 +1,19 @@
+{
+  "name": "typescript",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/basics.js",
+    "start:movies": "node dist/Movie.js",
+    "start:modules": "node dist/module2.js",
+    "start:decorator": "node dist/BasicClass.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "typescript": "^5.5.3"
+  }
+}

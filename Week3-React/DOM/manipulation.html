@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>DOM Manipulation - Event Listeners</title>
+</head>
+
+<body>
+    <h1 id="person" style="text-align: left;">Hello, My Name is Ryan!</h1>
+
+    <h1 onclick="this.innerHTML = 'Inline Change'">We can change the DOM with Inline JS</h1>
+    <h1 onclick="internalFunc(this)">We can change the DOM with Internal JS</h1>
+    <h1 onclick="externalFunc(this)">We can change the DOM with External JS</h1>
+
+</body>
+<script>
+    // Grab element
+    let ryan = document.getElementById("person"); // Returns an HTMLElement object
+
+    console.log(ryan);
+    console.log(ryan.id);
+    console.log(ryan.value); // Undefined for attributes not found/used
+    console.log(ryan.innerHTML);
+    console.log(ryan.style.textAlign);
+
+    // Add an Event Listener
+    ryan.addEventListener("click", () => { ryan.innerHTML = "Hello, My Name is Emma!"; console.log(Date.now());});
+    ryan.addEventListener("mouseover", changeColor);
+    ryan.addEventListener("mouseout", () => { resetColor(ryan); });
+    ryan.addEventListener("dblclick", makeBold(ryan));
+
+    function changeColor() {
+        ryan.style.backgroundColor = "lightblue";
+    }
+
+    function resetColor(element) {
+        element.style.backgroundColor = "white";
+    }
+
+    function makeBold(element) {
+        return function() {
+            element.style.fontWeight = (element.style.fontWeight == "bold") ? "normal" : "bold";
+        }
+    }
+
+    ryan.ondrag = () => {
+        ryan.style.border = "1px solid black";
+    }
+
+</script>
+<script>
+    // Internal JS
+    function internalFunc(element) {
+        element.innerHTML = "Internal change";
+    }
+</script>
+<script src="manipulation.js"></script>
+
+</html>

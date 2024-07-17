@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Register Page</title>
+
+    <style>
+        .header {
+            text-align: right;
+        }
+        #registerTable {
+            background-color: whitesmoke;
+            width: 50%;
+            margin: 10px 25%;
+            padding: 10px;
+        }
+
+        #registerTable td:first-child {
+            color: darkred;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Username: <input type="text" id="usernameInput"><br> -->
+    <!-- Password: <input type="password" id="passwordInput"><br> -->
+    <!-- Email: <input type="email" id="emailInput"><br> -->
+    <!-- Age: <input type="number" id="ageInput" min="0"><br> -->
+
+    <table id="registerTable">
+        <tr>
+            <td class="header"><label for="usernameInput">Username:</label></td>
+            <td><input type="text" id="usernameInput"></td>
+        </tr>
+        <tr>
+            <td class="header"><label for="passwordInput">Password:</label></td>
+            <td><input type="password" id="passwordInput"></td>
+        </tr>
+        <tr>
+            <td class="header"><label for="emailInput">Email:</label></td>
+            <td><input type="email" id="emailInput"></td>
+        </tr>
+        <tr>
+            <td class="header"><label for="ageInput">Age:</label></td>
+            <td><input type="number" id="ageInput"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><button onclick="registerUser()">Register</button></td>
+        </tr>
+    </table>
+
+    <table id="moviesTable" style="border: 1px solid black; border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Movie Title</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody id="moviesTBody">
+
+        </tbody>
+    </table>
+
+    <button onclick="loadMovies()">Populate Movies</button>
+    
+</body>
+<script>
+    let age = document.getElementById("ageInput"); // "age" refers to the entire HTML element
+    age.oninput = () => {
+        console.log(age.value);
+        if (age.value < 0 || age.value == "") {
+            age.value = 0;
+        }
+    }
+
+    let registerUser = function () {
+        const username = document.getElementById("usernameInput").value;
+        const password = document.getElementById("passwordInput").value;
+        const email = document.getElementById("emailInput").value;
+        const age = document.getElementById("ageInput").value;
+
+        console.log(username);
+        console.log(password);
+        console.log(email);
+        console.log(age);
+
+        let user = {
+            username: username,
+            password: password,
+            email: email,
+            age: age
+        }
+
+        console.log(user);
+
+        // Turn object into a JSON in prep for its departure through an HTTP request
+        let userJSON = JSON.stringify(user);
+        console.log(userJSON);
+
+        // Given this JSON, put it into the body of a request and send the request
+
+        // If a response is received, extract the body of the response
+        let pretendResponse = JSON.parse(userJSON);
+        console.log(pretendResponse);
+
+        if (pretendResponse) {
+            alert("User Added!");
+        }
+    }
+
+    function loadMovies() {
+
+        // Pretend to have retrieved a response with movie data and converted it back to a JS object
+        // JSON.parse(ourResponse);
+        let movies = [
+            {id: 1, title: "The Avengers", price: 10},
+            {id: 2, title: "Iron Man", price: 11},
+            {id: 3, title: "Black Panther", price: 12}
+        ]
+
+        let tBodyElement = document.getElementById("moviesTBody");
+        tBodyElement.innerHTML = "";
+
+        movies.forEach(movie => {
+            // Create a table row and put it into moviesTBody
+            let movieRow = document.createElement("tr"); // Creating new tr element
+            tBodyElement.appendChild(movieRow); // Adding new tr element to tbody
+
+            for(prop in movie) {
+                // For each property -> make a td element and set its innerHTML to the correct value
+                let propData = document.createElement("td");
+                propData.innerHTML = movie[prop];
+                movieRow.appendChild(propData);
+
+                // movieRow.innerHTML += "<td>" + movie[prop] + "</td>"; // This also works but is not preferred
+            }
+        })
+    }
+
+    window.onload = loadMovies();
+</script>
+
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Star Wars API</title>
+    <style>
+        td {
+            border: 1px solid black;
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Star Wars</h1>
+    <button onclick="getCharacter()">Get Character</button>
+    <br>
+
+    <label for="idInput">ID:</label>
+    <input type="number" id="idInput" min="1" value="1">
+    <button onclick="getCharacterById()">Get Character By ID</button>
+
+    <table style="border: 1px solid black; border-collapse: collapse;">
+        <tr>
+            <td>Name</td>
+            <td id="name">-</td>
+        </tr>
+        <tr>
+            <td>Height</td>
+            <td id="height">-</td>
+        </tr>
+        <tr>
+            <td>Mass</td>
+            <td id="mass">-</td>
+        </tr>
+    </table>
+    
+</body>
+<script>
+    async function getCharacter() {
+        console.log("Getting Character");
+
+        /*
+        Getting an HTTP Response can sometimes take several seconds.
+        It would be a bad user experience if JS did not work or do
+        anything at all while waiting on this response. Instead the
+        fetch() function is asynchronous so that we can control what
+        we'd like our application to do while we wait.
+
+        Async functions do not return a response, but rather return a Promise.
+        A Promise as like an empty object that will at some point hold
+        the value/info we want.
+
+        The await keyword allows you to wait for that Promise to be fulfilled
+        before proceeding forward in this async function.
+        */
+
+        //fetch(url)
+        const httpResponse = await fetch("https://swapi.dev/api/people/1?format=json");
+
+        console.log(httpResponse);
+
+        // When you receive an HTTP Message, that is processed from top to bottom.
+        // The body is the last part of the HTTP Message, so we need to wait until
+        // the body has been processed before using it.
+        const body = await httpResponse.json();
+        // returns the JSON response body as a JS object
+        // same as JSON.parse(httpResponse.body())
+
+        console.log(body);
+        console.log(body.name);
+        console.log(body.height);
+
+        populateTable(body);
+    }
+
+    async function getCharacterById() {
+
+        const id = document.getElementById("idInput").value;
+        
+        // Template Literal: ``
+        const url = `https://swapi.dev/api/people/${id}?format=json`
+
+        const httpResponse = await fetch(url);
+        const body = await httpResponse.json();
+
+        console.log(body);
+
+        populateTable(body);
+    }
+
+    function populateTable(body) {
+        document.getElementById("name").innerHTML = body.name;
+        document.getElementById("height").innerHTML = body.height;
+        document.getElementById("mass").innerHTML = body.mass;
+    }
+</script>
+
+</html>
